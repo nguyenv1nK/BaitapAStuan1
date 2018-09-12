@@ -19,10 +19,7 @@ main proc
     
             
         call input        ;Nhap so A
-        call nextLine
-    
-       
-        call inputData   ;Hien thi so vua nhap
+        call inputData   
         MOV num1, BX     ;Chuyen bx ra num1      
         call nextLine 
         
@@ -32,10 +29,7 @@ main proc
         INT 21H 
         
         call input       ;Nhap so B
-        call nextLine 
-        
-        
-        call inputData    ;Hien thi so vua nhap
+        call inputData    
         call nextLine  
         
          
@@ -96,7 +90,7 @@ inputData proc
         XOR DL, DL   
         ROL BX, 1 
         ADC DL, 30H 
-        INT 21H 
+        ;INT 21H 
         LOOP hien  
         ret
     inputData endp
