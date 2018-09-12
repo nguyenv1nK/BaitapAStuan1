@@ -1,0 +1,194 @@
+1.Cấu trúc của vi xử lí:
+
+	1.1 Cấu trúc căn bản của một vi xử lí:
+
+		Vi xử lí là đơn vị xử lí trung tâm CPU của máy vi tính
+		Sức mạnh xử lí của máy tính phụ thuộc vào năng lực của vi xử lí
+		Các đơn vị chức năng của vi xử lí:
+
+		*Đơn vị thực hiện lệnh EU(Execution Unit)
+		- Đơn vị điều khiển CU (Control Unit): 
+			Đưa ra các tín hiệu cho phép các khối trong vi xử lí được phép hoạt động tùy thuộc theo mã lệnh mà nó nhận được
+		- Đơn vị số học và logic ALU (Arithmetic Logic Unit): 
+			Nơi thực hiện tất cả các câu lệnh toán học và logic trong chương trình, có kích tương ứng cỡ kích cỡ từ của vi xử lý
+			VD: Vi xử lí 32 bit sẽ có ALU 32 bit
+		- Các thanh ghi (gồm thanh ghi lệnh, thanh ghi địa chỉ, thanh ghi tạm): là các ô nhớ có tốc độ truy xuất rất nhanh nằm ngay trong vi xử lí,được dùng làm nơi: 
+			+lưu trữ các toán hạng cung cấp cho ALU 
+			+lưu trữ các dữ liệu vào ra của vi xử lí, lưu trữ các địa chỉ
+			+lưu trữ các địa chỉ cho phép CPU truy xuất bộ nhớ hoặc I/O nhanh chóng hơn
+			
+		*Đơn vị giao tiếp Bus(BUS interface)
+		-Bus dữ liệu
+
+	1.2 Các thanh ghi:
+		-Thanh ghi lệnh: 
+			lưu mã lệnh đang thực hiện. Sau khi nạp mã lệnh từ bộ nhớ, vi xử lý
+			lưu mã lệnh trong thanh ghi lệnh. Giá trị trong thanh ghi này luôn được vi xử lý giải
+			mã để xác định lệnh. Kích cỡ từ (word) của vi xử lý quyết định kích cỡ của thanh ghi
+			này.
+		-Bộ đếm chương trình: 
+			chứa địa chỉ của lệnh hay mã thực thi (op-code) tiếp theo được thực hiện
+		-Thanh ghi địa chỉ bộ nhớ:
+			chứa địa chỉ của dữ liệu. Vi xử lý sử dụng địa chỉ này như là
+			các con trỏ trực tiếp tới bộ nhớ. Nội dung của ô nhớ có địa chỉ này chính là dữ liệu
+			đang được trao đổi và xử lý.
+		-Thanh ghi tổng: 
+			Còn được gọi là thanh ghi tích lũy, thường dùng thể lưu kết quả tính toán của đơn vị
+			xử lý số học và lô-gíc ALU. Có kích thước 8,16,24 hoặc 32 bit
+		
+2. Bộ xử lý Intel 8086 
+	Là bộ vi xử lí 16 bit đầu tiên của Intel và đầu tiên sử dụng tập lênh x86 
+	
+	2.1.Các thanh ghi 8086
+	
+	- Các thanh ghi đoạn (Segment Registers):
+		+ Thanh ghi đoạn mã CS (Code-Segment)
+		+ Thanh ghi đoạn dữ liệu DS (Data Segment)
+		+ Thanh ghi đoạn ngăn xếp SS (Stack Segment)
+		+ Thanh ghi đoạn dữ liệu phụ ES (Extra Segment).
+		Dung lượng lớn nhất của mỗi đoạn nhớ này là 64 KByte. Tại một thời điểm nhất định bộ vi xử lý chỉ làm việc với một trong bốn đoạn nhớ kể trên
+		
+	- Các thanh ghi đa năng
+		+ AX (Accumulator): thanh ghi tích lũy. Các kết quả của các thao tác thường được chứa ở AX (kết quả của phép nhân, chia).
+		+ BX (Base): thanh ghi cơ sở, thường dùng để chứa địa chỉ cơ sở của một dãy các ô nhớ.
+		+ CX (Count): thanh đếm. CX thường được dùng để chứa số lần lặp trong trường hợp các lệnh LOOP (lặp).
+		+ DX (Data): thanh ghi dữ liệu. DX tham gia các thao tác của phép nhân hoặc chia các số 16 bít. DX thường dùng để chứa địa chỉ của các cổng trong các lệnh vào/ ra dữ liệu.
+		
+	- Các thanh ghi con trỏ và chỉ số
+		+ IP: con trỏ lệnh (Instruction Pointer). IP luôn trỏ vào lệnh tiếp theo sẽ được thực hiện nằm trong đoạn mã CS.
+		+ BP: con trỏ cơ sở (Base Pointer). BP luôn trỏ vào một dữ liệu nằm trong đoạn ngăn xếp SS.
+		+ SP: con trỏ ngăn xếp (Stack Pointer). SP luôn trỏ vào đỉnh hiện thời của ngăn xếp nằm trong đoạn ngăn xếp SS. 
+		+ SI: chỉ số gốc hay nguồn (Source Index).
+		+ DI: chỉ số đích (Destination Index).
+		
+	- Thanh ghi cờ FR (flag register)
+		Đây là thanh ghi khá đặc biệt trong CPU, mỗi bít của nó được dùng để phản ánh một
+		trạng thái nhất định của kết quả phép toán do ALU thực hiện hoặc một trạng thái hoạt động của EU.
+		
+	2.2.Phân đoạn bộ nhớ 8086
+		20 bit để quản lí bỗ nhớ trong ~ 1Mbyte
+		Vi xử lí chia không gian 1Mbyte bộ nhớ thành các vùng khác nhau theo nội dung mà chúng lưu trữ, gồm các vùng nhớ để:
+		- Chứa mã chương trình.
+		- Chứa dữ liệu và kết quả của chương trình.
+		- Tạo một vùng nhớ đặc biệt gọi là ngăn xếp (stack) dùng vào việc quản lý các thông số
+		của bộ vi xử lý khi gọi thự hiện các chương trình con hoặc trở về từ chương trình con.
+		
+	2.3.Các chế độ địa chỉ 8086
+	
+		2.3.1. Chế độ địa chỉ thanh ghi
+			Trong chế độ địa chỉ này, người ta dùng các thanh ghi bên trong CPU như là các toán
+			hạng để chứa dữ liệu cần thao tác. Vì vậy khi thực hiện lệnh có thể đạt tốc độ truy nhập cao
+			hơn so với các lệnh có truy nhập đên bộ nhớ
+			
+		2.3.2. Chế độ địa chỉ tức thì
+			Trong chế độ địa chỉ này, toán hạng đích là một thanh ghi hay một ô nhớ, còn toán hạng
+			nguồn là một hằng số và vị trí của toán hạng này ở ngay sau mã lệnh. Chế độ địa chỉ này có
+			thể được dùng để nạp dữ liệu cần thao tác vào bất kỳ thanh ghi nào (ngoại trừ các thanh ghi
+			đoạn và thanh cờ) hoặc vào bất kỳ ô nhớ nào trong đoạn dữ liệu DS
+			
+		2.3.3. Chế độ địa chỉ trực tiếp
+			Trong chế độ địa chỉ này một hằng là địa chỉ lệnh của ô nhớ làm một toán hạng, còn
+			toán hạng kia chỉ có thể là thanh ghi mà không được là ô nhớ. Nếu so sánh với chế độ địa chỉ
+			tức thì ta thấy ở đây ngay sau mã lệnh không phải là toán hạng mà là địa chỉ lệch của toán
+			hạng.
+			
+		2.3.4. Chế độ địa chỉ gián tiếp qua thanh ghi
+			Trong chế độ địa chỉ này một toán hạng là một thanh ghi được sử dụng để chứa địa chỉ
+			lệch của ô nhớ chứa dữ liệu, còn toán hạng kia chỉ có thể là thanh ghi mà không được là ô nhớ
+			(8086 không cho phép tham chiếu bộ nhớ 2 lần đối với một lệnh)
+			
+		2.3.5. Chế độ địa chỉ tương đối cơ sở
+			Trong chế độ địa chỉ này các thanh ghi cơ sở như BX hoặc BP và hằng số biểu diễn giá
+			trị dịch chuyển (displacement value) được dùng để tính địa chỉ hiệu dụng của một toán hạng
+			trong vùng nhớ DS hoặc SS. Sự có mặt của các giá trị dịch chuyển xác định tính tương đối
+			của địa chỉ so với địa chỉ cơ sở.
+			
+		2.3.6. Chế độ địa chỉ tương đối chỉ số
+			Trong chế độ địa chỉ này các thanh ghi chỉ số như SI hoặc DI và hằng số biểu diễn giá
+			trị dịch chuyển (displacement value) được dùng để tính địa chỉ hiệu dụng của một toán hạng
+			trong vùng nhớ DS hoặc ES (trong các lệnh chuyễn chuỗi các byte hoặc từ).
+			
+		2.3.7. Chế độ địa chỉ tương đối chỉ số cơ sở
+			Kết hợp hai chế độ địa chỉ tương đối chỉ số và tương đối cơ sở ta có chế độ địa chỉ
+			tương đối chỉ số cơ sở. Trong chế độ địa chỉ này ta dùng cả thanh ghi cơ sở lẫn thanh ghi chỉ
+			số và một hằng biểu diễn sự dịch chuyển của địa chỉ để tính địa chỉ của toán hạng. Ta có thể
+			thấy chế độ địa chỉ này rất phù hợp cho việc địa chỉ hoá các mảng hai chiều.
+			
+	2.4.Tập lệnh Intel 8086
+	
+		2.4.1. Các lệnh trao đổi dữ liệu
+			+ MOV – Chuyển 1 byte hay word
+			+ LEA - Nạp địa chỉ hiệu dụng vào thanh ghi
+			+ IN- Đọc dữ liệu từ cổng vào thanh ghi ACC.
+			+ OUT - Ghi dữ liệu từ Acc ra cổng
+				
+		2.4.2. Các lệnh tính toán số học và logic
+			+ ADD - Cộng 2 toán hạng
+			+ SUB - Trừ 2 toán hạng
+			+ MUL - Nhân số không dấu
+			+ DIV – Chia nguyên 2 số không có dấu
+			+ CMP - So sánh 2 byte hay 2 word
+			+ AND - Phép và 2 toán hạng
+			
+		2.4.3. Điều khiển, rẽ nhánh và lặp
+			+ JMP - Nhảy (vô điều kiện) đến một đích nào đó
+			+ LOOP -Lặp lại đoạn chương trình do nhãn chỉ ra cho đến khi CX=0
+			
+		2.4.4. Điều khiển vi xử lý
+		
+	2.5.Ngắt và xử lý ngắt trong 8086
+		2.5.1. Ngắt, sự cần thiết của ngắt trong CPU
+		
+			Ngắt là việc tạm dừng việc chương trình đang chạy để CPU có thể chạy một chương
+			trình khác nhằm xử lý một yêu cầu do bên ngoài đưa tới CPU như yêu cầu vào/ra hoặc do
+			chính yêu cầu của bên trong CPU như lỗi trong khi tính toán
+			
+			Trong cách tổ chức trao đổi dữ liệu thông qua việc thăm dò trạng thái sẵn sàng của thiết
+			bị ngoại vi, trước khi tiến hành bất kỳ một cuộc trao đổi dữ liệu nào CPU phải dành toàn bộ
+			thời gian vào việc xác định trạng thái sẵn sàng làm việc của thiết bị ngoại vi. Để tận dụng khả
+			năng của CPU để làm thêm được nhiều công việc khác nữa, chỉ khi nào có yêu cầu trao đổi dữ 
+			liệu thì mới yêu cầu CPU tạm dừng công việc hiện tại để phục vụ việc trao đổi dữ liệu. Sau
+			khi hoàn thành việc trao đổi dữ liệu thì CPU lại phải quay về để làm tiếp công việc hiện đang
+			bị gián đoạn
+			
+			Về mặt cấu trúc chương trình, khi có ngắt xảy ra thì chương trình chính tạm dừng việc
+			thực hiện và lưu các thanh ghi cần thiết như thanh ghi cờ vào ngăn xếp. Sau đó con trỏ lệnh
+			của CPU sẽ được trỏ tới đoạn mã của chương trình con phục vụ ngắt. Khi chương trình con
+			phục vụ ngắt kết thúc, CPU khôi phục lại trạng thái các thanh ghi của chương trình chính và
+			đặt con trỏ lệnh về vị trí bị ngừng khi phục vụ ngắt 
+			
+		2.5.2. Các loại ngắt 8086
+		- Nhóm các ngắt cứng: đó là các yêu cầu ngắt CPU do các tín hiệu đến từ các chân
+		INTR và NMI
+		- Nhóm các ngắt mềm: khi CPU thực hiện các lệnh ngắt dạng INT N, trong đó N là số
+		hiệu (kiểu) ngắt nằm trong khoảng 00-FFH (0-255)
+			Một số kiểu ngắt đặc biệt được xếp vào đầu dãy ngắt mềm INT N:
+				+ INT 0: Ngắt mềm do phép chia cho số 0 gây ra
+				+ INT 1: Ngắt mềm để chạy từng lệnh ứng với trường hợp cờ TF=1
+				+ INT 2: Ngắt cứng do tín hiệu tích cực tại chân NMI gây ra
+				+ INT 3: Ngắt mềm để đặt điểm dừng của chương trình tại một địc chỉ nào đó
+				+ INT 4: (Hoặc lệnh INTO): ngắt mềm ứng với trường hợp cờ tràn OF=1
+			Các kiểu ngắt khác còn lại thì được dành cho nhà sản xuất và cho người sử dụng định nghĩa:
+				+ INT 5-INT 1FH; dành riêng cho Intel trong các bộ vi xử lý cao cấp khác
+				+ INT 20H-INT FFH: dành cho người sử dụng
+		- Nhóm các hiện tượng ngoại lệ: đó là các ngắt do các lỗi nảy sinh trong quá trình hoạt
+		động của CPU như phép chia cho 0, xảy ra tràn khi tính toán.
+		2.5.3. Xử lý ưu tiên khi ngắt
+			+ ngắt trong: INT 0 (phép chia cho 0), INT N,.. . . . cao nhất
+			+ ngắt không che được NMI
+			+ ngắt che được INTR
+			+ ngắt để chạy từng lệng INT 1 . . . thấp nhất
+	
+3. Lập trình hợp ngữ 8086
+	3.1.Khung chương trình, cú pháp, các tạo và chạy chương trình hợp ngữ
+	3.2.Các cấu trúc lập trình cơ bản
+		3.2.1. Cấu trúc tuần tự
+		3.2.2. Cấu trúc IF-THEN
+		3.2.3. Cấu trúc IF-THEN-ELSE
+		3.2.4. Cấu trúc SWITCH CASE
+		3.2.5. Cấu trúc lặp FOR
+		3.2.6. Cấu trúc lặp WHILE
+		3.2.7. Cấu trúc lặp Repeat-Until
+	
+	
+	
